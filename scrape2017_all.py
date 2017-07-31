@@ -4,7 +4,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 #import libraries
-
+import time
 import csv
 import re
 import requests
@@ -22,6 +22,7 @@ for num in range(1,295):
     url = site + num
     
     #sends request for html content
+    time.sleep(2)
     response = requests.get(url)
     html = response.content
     soup = BeautifulSoup(html)  
@@ -40,7 +41,12 @@ for num in range(1,295):
         #gets the list items
         for j in i.findAll('li'):
             text = j.text
-            list_of_cells.append(text)
+            if text == "Website link":
+                url = (i.a['href'])
+                list_of_cells.append(url)
+            else:
+                list_of_cells.append(text)
+                    
         #appends to list of rows    
         list_of_rows.append(list_of_cells)
       
